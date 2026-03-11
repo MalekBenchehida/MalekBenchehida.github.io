@@ -61,15 +61,6 @@
             margin-bottom: 20px;
         }
 
-        .cursor {
-            display: none;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
         .social-links {
             display: flex;
             gap: 20px;
@@ -243,44 +234,27 @@
             margin-bottom: 10px;
         }
 
+        .resume-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #A855F7, #7C3AED);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .resume-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+        }
+
         footer {
             text-align: center;
             padding: 40px 20px;
             margin-top: 80px;
             border-top: 1px solid #30363D;
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin: 40px 0;
-        }
-
-        .stat-box {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #A855F7;
-        }
-
-        @media (max-width: 768px) {
-            .typing-text {
-                font-size: 2rem;
-            }
-
-            .social-links {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -295,6 +269,7 @@
             <a href="mailto:benchehidam@yahoo.com">Email</a>
             <a href="tel:+17086911663">Contact</a>
         </div>
+        <a href="resume.pdf" class="resume-link" target="_blank">Download My Resume</a>
     </header>
 
     <div class="container">
@@ -355,6 +330,16 @@
                     <p class="project-tech">Python • TensorFlow • OpenCV</p>
                     <p>Trained CNN to classify Rock/Paper/Scissors gestures. End-to-end computer vision pipeline with real-time inference.</p>
                 </div>
+                <div class="project-card" onclick="window.open('https://github.com/MalekBenchehida/flappy-bird-movenet', '_blank')">
+                    <h3>Flappy Bird with MoveNet</h3>
+                    <p class="project-tech">JavaScript • TensorFlow.js • MoveNet</p>
+                    <p>Controlled Flappy Bird using hand tracking via MoveNet. Real-time gesture detection for gameplay control.</p>
+                </div>
+                <div class="project-card" onclick="window.open('https://github.com/MalekBenchehida/edge-device-threat-detection', '_blank')">
+                    <h3>Edge Device Threat Detection</h3>
+                    <p class="project-tech">Python • Edge Computing • Threat Detection</p>
+                    <p>Deployed lightweight ML model on edge device to detect threats and send alerts to server. Real-time anomaly detection with low latency.</p>
+                </div>
             </div>
         </section>
 
@@ -380,21 +365,6 @@
                         <li>Proposed safeguards for consumer information in LLM applications</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <section class="section" id="stats">
-            <h2>📊 GitHub Stats</h2>
-            <div class="stats-container">
-                <div class="stat-box">
-                    <img src="https://github-readme-stats.vercel.app/api?username=MalekBenchehida&show_icons=true&theme=radical&hide_border=true&bg_color=0D1117" alt="GitHub Stats" />
-                </div>
-                <div class="stat-box">
-                    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MalekBenchehida&layout=compact&theme=radical&hide_border=true&bg_color=0D1117" alt="Top Languages" />
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <img src="https://github-readme-streak-stats.herokuapp.com/?user=MalekBenchehida&theme=radical&hide_border=true&background=0D1117" alt="GitHub Streak" />
             </div>
         </section>
     </div>
@@ -426,8 +396,6 @@
                 typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
                 charIndex++;
             }
-
-            typingElement.innerHTML += '<span class="cursor">|</span>';
 
             let speed = isDeleting ? 50 : 100;
 
@@ -522,17 +490,6 @@
                     setTimeout(() => trail.remove(), 500);
                 }, 100);
             }
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
         });
     </script>
 </body>
