@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malek Benchehida | Full Stack Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0D1117;
+            color: #c9d1d9;
+            overflow-x: hidden;
+        }
+
+        #particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: #A855F7;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 50px;
+            position: relative;
+        }
+
+        .typing-text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #A855F7;
+            min-height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background: #A855F7;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #A855F7, #7C3AED);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin: 60px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #A855F7;
+            text-align: center;
+        }
+
+        .about-card {
+            background: #161B22;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #30363D;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .tech-card {
+            background: #161B22;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #30363D;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .tech-card:hover {
+            transform: scale(1.05);
+            border-color: #A855F7;
+        }
+
+        .tech-card h3 {
+            color: #A855F7;
+            margin-bottom: 15px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: #161B22;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #30363D;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.4);
+        }
+
+        .project-card h3 {
+            color: #A855F7;
+            margin-bottom: 10px;
+        }
+
+        .project-tech {
+            color: #7C3AED;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .experience-timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #A855F7;
+        }
+
+        .experience-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: #A855F7;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #A855F7;
+        }
+
+        .experience-item h3 {
+            color: #A855F7;
+            margin-bottom: 5px;
+        }
+
+        .experience-item .date {
+            color: #7C3AED;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 1px solid #30363D;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #A855F7;
+        }
+
+        @media (max-width: 768px) {
+            .typing-text {
+                font-size: 2rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+
+    <header>
+        <div class="typing-text" id="typing"></div>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/malek-benchehida" target="_blank">LinkedIn</a>
+            <a href="mailto:benchehidam@yahoo.com">Email</a>
+            <a href="tel:+17086911663">Contact</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section" id="about">
+            <h2>👨💻 About Me</h2>
+            <div class="about-card">
+                <pre>const malek = {
+    education: "B.S. Computer Science @ UIC (GPA: 3.8/4.0)",
+    expected: "2026",
+    currentRole: "DevOps/Full Stack Developer @ CAS Enterprise",
+    location: "Chicago, IL",
+    focus: "Building scalable systems & solving complex problems",
+    learning: ["Rust", "Advanced AI/ML", "System Design"],
+    interests: ["Embedded Systems", "Cloud Architecture", "Open Source"],
+    funFact: "Building a Flappy Bird game using MoveNet in JS",
+    quote: "Code is like humor - when you have to explain it, it's bad"
+};</pre>
+            </div>
+        </section>
+
+        <section class="section" id="tech">
+            <h2>🛠️ Tech Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>Languages</h3>
+                    <p>Python • Java • C • C++ • C# • .NET • Rust • Go • JavaScript • TypeScript • SQL</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Frameworks</h3>
+                    <p>ReactJS • Node.js • .NET</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Platforms</h3>
+                    <p>AWS • Azure • Docker • Linux Kernel</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Protocols</h3>
+                    <p>CAN Bus • REST • GraphQL</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <h2>🚀 Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card" onclick="window.open('https://github.com/MalekBenchehida/sae-formula-electric', '_blank')">
+                    <h3>SAE Formula Electric Team</h3>
+                    <p class="project-tech">C++ • Rust • CAN Bus</p>
+                    <p>Designed core software for electric race vehicle. Migrating embedded systems to Rust for memory safety. Real-time control algorithms for motor speed & battery management.</p>
+                </div>
+                <div class="project-card" onclick="window.open('https://github.com/MalekBenchehida/banking-app', '_blank')">
+                    <h3>Banking App (P2P Crypto Wallet)</h3>
+                    <p class="project-tech">Node.js • TypeScript • Go • PostgreSQL</p>
+                    <p>Built decentralized P2P crypto wallet with BIP39 key generation. Implemented MFA & encryption for secure asset management.</p>
+                </div>
+                <div class="project-card" onclick="window.open('https://github.com/MalekBenchehida/hand-gesture-ai', '_blank')">
+                    <h3>Real-Time Hand Gesture AI</h3>
+                    <p class="project-tech">Python • TensorFlow • OpenCV</p>
+                    <p>Trained CNN to classify Rock/Paper/Scissors gestures. End-to-end computer vision pipeline with real-time inference.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="experience">
+            <h2>💼 Work Experience</h2>
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <h3>CAS Enterprise Inc.</h3>
+                    <p class="date">DevOps/Full Stack Developer | May 2024 - Present | Chicago, IL</p>
+                    <ul>
+                        <li>Automated CI/CD pipeline using Python scripts, reducing deployment time</li>
+                        <li>Maintained AWS & Azure cloud infrastructure for high availability</li>
+                        <li>Monitored system performance & security with custom Python scripts</li>
+                        <li>IT support & troubleshooting for internal teams</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>UIC Researcher</h3>
+                    <p class="date">Software Intern | Jun 2024 - Jul 2024 | Chicago, IL</p>
+                    <ul>
+                        <li>Researched privacy implications & vulnerabilities of LLMs</li>
+                        <li>Analyzed data protection concerns in AI systems</li>
+                        <li>Proposed safeguards for consumer information in LLM applications</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="stats">
+            <h2>📊 GitHub Stats</h2>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <img src="https://github-readme-stats.vercel.app/api?username=MalekBenchehida&show_icons=true&theme=radical&hide_border=true&bg_color=0D1117" alt="GitHub Stats" />
+                </div>
+                <div class="stat-box">
+                    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MalekBenchehida&layout=compact&theme=radical&hide_border=true&bg_color=0D1117" alt="Top Languages" />
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <img src="https://github-readme-streak-stats.herokuapp.com/?user=MalekBenchehida&theme=radical&hide_border=true&background=0D1117" alt="GitHub Streak" />
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>"The best way to predict the future is to invent it"</p>
+        <p style="margin-top: 20px; color: #7C3AED;">© 2026 Malek Benchehida</p>
+    </footer>
+
+    <script>
+        // Typing animation
+        const phrases = [
+            "Hey, I'm Malek Benchehida 👋",
+            "CS Student | Full Stack Dev",
+            "Building Cool Stuff on the Internet"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing');
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typingElement.innerHTML += '<span class="cursor">|</span>';
+
+            let speed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                speed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                speed = 500;
+            }
+
+            setTimeout(type, speed);
+        }
+
+        type();
+
+        // Particle system
+        const particlesContainer = document.getElementById('particles');
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 3 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = Math.random() * window.innerHeight + 'px';
+            particle.style.opacity = Math.random() * 0.5 + 0.2;
+            particlesContainer.appendChild(particle);
+
+            animateParticle(particle);
+        }
+
+        function animateParticle(particle) {
+            const duration = Math.random() * 3000 + 2000;
+            const startX = parseFloat(particle.style.left);
+            const startY = parseFloat(particle.style.top);
+            const endX = startX + (Math.random() - 0.5) * 200;
+            const endY = startY + (Math.random() - 0.5) * 200;
+            const startTime = Date.now();
+
+            function update() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                particle.style.left = startX + (endX - startX) * progress + 'px';
+                particle.style.top = startY + (endY - startY) * progress + 'px';
+                particle.style.opacity = (1 - progress) * 0.5;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    particle.remove();
+                }
+            }
+
+            update();
+        }
+
+        setInterval(createParticle, 200);
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Mouse trail effect
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.9) {
+                const trail = document.createElement('div');
+                trail.className = 'particle';
+                trail.style.width = '4px';
+                trail.style.height = '4px';
+                trail.style.left = e.pageX + 'px';
+                trail.style.top = e.pageY + 'px';
+                trail.style.opacity = '0.6';
+                particlesContainer.appendChild(trail);
+
+                setTimeout(() => {
+                    trail.style.opacity = '0';
+                    trail.style.transform = 'scale(0)';
+                    trail.style.transition = 'all 0.5s';
+                    setTimeout(() => trail.remove(), 500);
+                }, 100);
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
