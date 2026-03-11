@@ -38,6 +38,21 @@
             position: relative;
         }
 
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #A855F7;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.1);
+        }
+
         .typing-text {
             font-size: 3rem;
             font-weight: bold;
@@ -276,6 +291,7 @@
     <div id="particles"></div>
 
     <header>
+        <img src="profile.jpg" alt="Malek Benchehida" class="profile-photo">
         <div class="typing-text" id="typing"></div>
         <div class="social-links">
             <a href="https://linkedin.com/in/malek-benchehida" target="_blank">LinkedIn</a>
