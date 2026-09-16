@@ -1369,7 +1369,10 @@
                             <div class="t-dot t-green"></div>
                         </div>
                         <div class="terminal-title">bash - malek@synth84:~ (tty1)</div>
-                        <span class="term-dim">v2.4.0</span>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--neon-cyan); background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.25); padding: 2px 7px; border-radius: 3px; letter-spacing: 0.5px;">⌨️ BUCKLING SPRING FX</span>
+                            <span class="term-dim">v2.4.0</span>
+                        </div>
                     </div>
 
                     <div class="terminal-body" id="term-output">
@@ -2021,13 +2024,140 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
             'clear': 'CLEAR'
         };
 
+        // ============================================================
+        // VINTAGE IBM MODEL M BUCKLING SPRING KEYBOARD SYNTHESIZER
+        // ============================================================
+        let keyNoiseBuffer = null;
+
+        function getKeyboardNoise() {
+            if (!audioCtx) return null;
+            if (!keyNoiseBuffer) {
+                const bufferSize = Math.floor(audioCtx.sampleRate * 0.08); // 80ms buffer
+                keyNoiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = keyNoiseBuffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1);
+                }
+            }
+            return keyNoiseBuffer;
+        }
+
+        function playBucklingSpringDown(key) {
+            initAudio();
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const t = audioCtx.currentTime;
+            const isSpecial = (key === 'Enter' || key === ' ' || key === 'Spacebar' || key === 'Backspace' || key === 'Tab');
+            const isEnter = (key === 'Enter');
+            const isSpace = (key === ' ' || key === 'Spacebar');
+
+            // Organic acoustic jitter (+/- 6% variation per keystroke)
+            const jitter = 0.94 + Math.random() * 0.12;
+
+            // 1. Buckle Snap: Spring collapsing under mechanical pressure against barrel wall
+            const snapOsc = audioCtx.createOscillator();
+            const snapGain = audioCtx.createGain();
+            snapOsc.type = 'triangle';
+            const snapFreq = (isEnter ? 2400 : isSpace ? 2700 : 3300) * jitter;
+            snapOsc.frequency.setValueAtTime(snapFreq, t);
+            snapOsc.frequency.exponentialRampToValueAtTime(750 * jitter, t + 0.012);
+
+            snapGain.gain.setValueAtTime(0.24, t);
+            snapGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.015);
+
+            snapOsc.connect(snapGain);
+            snapGain.connect(audioCtx.destination);
+            snapOsc.start(t);
+            snapOsc.stop(t + 0.018);
+
+            // 2. High-Frequency Clatter: Textured noise burst of metal on plastic
+            const nBuffer = getKeyboardNoise();
+            if (nBuffer) {
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = nBuffer;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime((isSpecial ? 3400 : 4300) * jitter, t);
+                filter.Q.setValueAtTime(5.0, t);
+
+                const noiseGain = audioCtx.createGain();
+                noiseGain.gain.setValueAtTime(isSpecial ? 0.22 : 0.16, t);
+                noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + (isSpecial ? 0.026 : 0.019));
+
+                noise.connect(filter);
+                filter.connect(noiseGain);
+                noiseGain.connect(audioCtx.destination);
+                noise.start(t);
+            }
+
+            // 3. Bottom-Out Impact: Slider hitting the steel plate through membrane
+            const thudOsc = audioCtx.createOscillator();
+            const thudGain = audioCtx.createGain();
+            thudOsc.type = 'sine';
+
+            const thudStart = isEnter ? 180 : isSpace ? 200 : 270;
+            const thudEnd = isEnter ? 45 : isSpace ? 55 : 85;
+            const thudDur = isSpecial ? 0.046 : 0.033;
+
+            thudOsc.frequency.setValueAtTime(thudStart * jitter, t);
+            thudOsc.frequency.exponentialRampToValueAtTime(thudEnd * jitter, t + thudDur);
+
+            thudGain.gain.setValueAtTime(isSpecial ? 0.32 : 0.22, t);
+            thudGain.gain.exponentialRampToValueAtTime(0.0001, t + thudDur + 0.004);
+
+            thudOsc.connect(thudGain);
+            thudGain.connect(audioCtx.destination);
+            thudOsc.start(t);
+            thudOsc.stop(t + thudDur + 0.01);
+
+            // 4. Spring Coil Resonance (The unmistakable Model M metallic 'ping')
+            const pingOsc = audioCtx.createOscillator();
+            const pingGain = audioCtx.createGain();
+            pingOsc.type = 'sine';
+            const pingFreq = (isEnter ? 4300 : isSpace ? 4700 : 5350) * (0.95 + Math.random() * 0.1);
+            pingOsc.frequency.setValueAtTime(pingFreq, t);
+
+            pingGain.gain.setValueAtTime(isSpecial ? 0.08 : 0.055, t);
+            pingGain.gain.exponentialRampToValueAtTime(0.0001, t + (isEnter ? 0.08 : 0.05));
+
+            pingOsc.connect(pingGain);
+            pingGain.connect(audioCtx.destination);
+            pingOsc.start(t);
+            pingOsc.stop(t + 0.09);
+        }
+
+        function playBucklingSpringUp() {
+            if (!audioCtx || audioCtx.state === 'suspended') return;
+            const t = audioCtx.currentTime;
+            const relOsc = audioCtx.createOscillator();
+            const relGain = audioCtx.createGain();
+            relOsc.type = 'triangle';
+            relOsc.frequency.setValueAtTime(1800 + Math.random() * 400, t);
+            relGain.gain.setValueAtTime(0.04, t);
+            relGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.012);
+            relOsc.connect(relGain);
+            relGain.connect(audioCtx.destination);
+            relOsc.start(t);
+            relOsc.stop(t + 0.015);
+        }
+
+        // Terminal Events with Buckling Spring Acoustics
+        termInput.addEventListener('focus', () => {
+            initAudio();
+        });
+
         termInput.addEventListener('keydown', (e) => {
+            // Trigger authentic buckling spring sound for every keystroke
+            playBucklingSpringDown(e.key);
+
             if (e.key === 'Enter') {
                 const cmd = termInput.value.trim().toLowerCase();
                 termInput.value = '';
                 if (!cmd) return;
-
-                playSynthBeep(523.25, 'sine', 0.05, 0.04);
 
                 if (cmd === 'clear') {
                     termOutput.innerHTML = `<div class="term-dim">Terminal cleared. Type 'help' for commands.</div>`;
@@ -2044,6 +2174,10 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
                 termOutput.innerHTML += `${userLine}<div>${response}</div><div style="margin-bottom: 8px;"></div>`;
                 termOutput.scrollTop = termOutput.scrollHeight;
             }
+        });
+
+        termInput.addEventListener('keyup', () => {
+            playBucklingSpringUp();
         });
     </script>
 </body>
