@@ -692,20 +692,11 @@
             border-bottom: 1px solid rgba(0, 240, 255, 0.25);
         }
 
-        .terminal-dots {
+        .terminal-header-left {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 10px;
         }
-
-        .t-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .t-red { background: #ff5f56; }
-        .t-yellow { background: #ffbd2e; }
-        .t-green { background: #27c93f; }
 
         .terminal-title {
             font-family: var(--font-mono);
@@ -1363,14 +1354,14 @@
                 <!-- Interactive Neon Shell Terminal -->
                 <div class="terminal-window" id="terminal">
                     <div class="terminal-header">
-                        <div class="terminal-dots">
-                            <div class="t-dot t-red"></div>
-                            <div class="t-dot t-yellow"></div>
-                            <div class="t-dot t-green"></div>
+                        <div class="terminal-header-left">
+                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-pink); background: rgba(255, 42, 133, 0.12); border: 1px solid var(--border-neon); padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 1px;">[TTY_01]</span>
+                            <div class="terminal-title">bash - malek@synth84:~</div>
                         </div>
-                        <div class="terminal-title">bash - malek@synth84:~ (tty1)</div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--neon-cyan); background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.25); padding: 2px 7px; border-radius: 3px; letter-spacing: 0.5px;">⌨️ BUCKLING SPRING FX</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button id="keyboard-sound-toggle" title="Toggle Buckling Spring Keyboard Sound" style="background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.72rem; padding: 3px 10px; border-radius: 3px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;">
+                                <span>⌨️ SOUND:</span> <strong id="keyboard-sound-status">ON</strong>
+                            </button>
                             <span class="term-dim">v2.4.0</span>
                         </div>
                     </div>
@@ -2029,6 +2020,8 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
         // ============================================================
         let keyNoiseBuffer = null;
 
+        let keyboardSoundEnabled = true;
+
         function getKeyboardNoise() {
             if (!audioCtx) return null;
             if (!keyNoiseBuffer) {
@@ -2043,6 +2036,7 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
         }
 
         function playBucklingSpringDown(key) {
+            if (!keyboardSoundEnabled) return;
             initAudio();
             if (!audioCtx) return;
             if (audioCtx.state === 'suspended') {
@@ -2131,7 +2125,7 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
         }
 
         function playBucklingSpringUp() {
-            if (!audioCtx || audioCtx.state === 'suspended') return;
+            if (!keyboardSoundEnabled || !audioCtx || audioCtx.state === 'suspended') return;
             const t = audioCtx.currentTime;
             const relOsc = audioCtx.createOscillator();
             const relGain = audioCtx.createGain();
@@ -2143,6 +2137,29 @@ CE Resume:  <a href="resume_ce.pdf" target="_blank" class="term-amber">Open CE R
             relGain.connect(audioCtx.destination);
             relOsc.start(t);
             relOsc.stop(t + 0.015);
+        }
+
+        // Toggle Keyboard Buckling Spring Sound On/Off
+        const keyboardSoundToggleBtn = document.getElementById('keyboard-sound-toggle');
+        const keyboardSoundStatus = document.getElementById('keyboard-sound-status');
+
+        if (keyboardSoundToggleBtn && keyboardSoundStatus) {
+            keyboardSoundToggleBtn.addEventListener('click', () => {
+                initAudio();
+                keyboardSoundEnabled = !keyboardSoundEnabled;
+                if (keyboardSoundEnabled) {
+                    keyboardSoundStatus.textContent = 'ON';
+                    keyboardSoundToggleBtn.style.background = 'rgba(0, 240, 255, 0.15)';
+                    keyboardSoundToggleBtn.style.borderColor = 'var(--neon-cyan)';
+                    keyboardSoundToggleBtn.style.color = 'var(--neon-cyan)';
+                    playBucklingSpringDown('Enter'); // brief acoustic feedback
+                } else {
+                    keyboardSoundStatus.textContent = 'OFF';
+                    keyboardSoundToggleBtn.style.background = 'rgba(255, 255, 255, 0.05)';
+                    keyboardSoundToggleBtn.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    keyboardSoundToggleBtn.style.color = 'var(--text-muted)';
+                }
+            });
         }
 
         // Terminal Events with Buckling Spring Acoustics
