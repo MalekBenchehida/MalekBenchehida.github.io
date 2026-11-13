@@ -1281,6 +1281,10 @@
                 <!-- Hard-hitting Engineering Metrics HUD -->
                 <div class="benchmarks-strip">
                     <div class="hud-card">
+                        <div class="hud-metric">0.9039</div>
+                        <div class="hud-label">Multimodal Clinical ML AUROC (+11 Detected)</div>
+                    </div>
+                    <div class="hud-card">
                         <div class="hud-metric">632x</div>
                         <div class="hud-label">ARM64 Edge ML Throughput vs Cloud</div>
                     </div>
@@ -1291,10 +1295,6 @@
                     <div class="hud-card">
                         <div class="hud-metric">99/100</div>
                         <div class="hud-label">Lighthouse Perf &amp; 1.2s LCP</div>
-                    </div>
-                    <div class="hud-card">
-                        <div class="hud-metric">91%</div>
-                        <div class="hud-label">CI/CD Deployment Latency Cut</div>
                     </div>
                 </div>
             </div>
@@ -1527,9 +1527,9 @@
                         Custom vehicle firmware and real-time telemetry system for the collegiate Formula SAE electric race vehicle.
                     </p>
                     <ul class="project-highlights">
-                        <li>Engineered embedded control loops in C++ and migrated safety-critical firmware to <strong>Rust</strong> for race-free concurrency.</li>
-                        <li>Developed ECU communication protocols and sensor interfaces over <strong>CAN Bus</strong>.</li>
-                        <li>Streamed live telemetry monitoring vehicle velocity and throttle pedal position (0–100%).</li>
+                        <li>Engineered working interrupt-driven <strong>Rust</strong> firmware on STM32 microcontrollers using prioritized interrupt handlers, non-blocking state machines, timers, and DMA for sensor polling.</li>
+                        <li>Designed robust vehicle communication protocols and diagnostic sensor telemetry pipelines over <strong>CAN Bus</strong>.</li>
+                        <li>Streamed real-time vehicle velocity and throttle pedal position (0–100%) for live telemetry and race dynamics analysis.</li>
                     </ul>
                     <div class="project-tech-tags">
                         <span class="p-tag">Rust</span>
@@ -1730,9 +1730,26 @@
                                 </div>
                                 <div class="timeline-period">SEPT 2026 — PRESENT</div>
                             </div>
+
+                            <p style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.88rem; margin: 4px 0 12px 0;">
+                                // 4-STAGE MULTIMODAL DEEP LEARNING &amp; CLINICAL DISCRIMINATION (0.9039 AUROC)
+                            </p>
+
                             <ul class="timeline-bullets">
                                 <li>
-                                    Reviewing chest X-ray and visceral-fat clinical literature to direct feature engineering for an early-stage <strong>Python / PyTorch</strong> machine learning study predicting type 2 diabetes risk factors.
+                                    <strong>Computer Vision Pipeline (Frontal CXR Deep Learning):</strong> Extracted cardiothoracic representations from frontal radiographs using TorchXRayVision's pretrained <strong>DenseNet-121</strong> (<code>densenet121-res224-all</code>). Built an aspect-preserving 224&times;224 letterboxed ingestion pipeline with padding to safeguard thoracic anatomy.
+                                </li>
+                                <li>
+                                    <strong>Defeating the Memorization Trap:</strong> Diagnosed early scanner artifact overfitting (0.17 train vs 0.67 val loss) and engineered clinical data augmentations (&plusmn;7&deg; rotations, translations, contrast jitter) while <em>strictly prohibiting horizontal flips</em> to preserve true anatomical cardiac orientation&mdash;collapsing the generalization gap down to <strong>0.04</strong>.
+                                </li>
+                                <li>
+                                    <strong>Multimodal Late Fusion (0.9039 AUROC):</strong> Modeled non-image clinical tabular predictors (Age, BMI, Sex, Married, SDI) with Gradient Boosted Decision Trees (0.8929 baseline AUC), then engineered a late fusion architecture integrating continuous radiograph risk scores with tabular embeddings&mdash;elevating discrimination to <strong>0.9039 AUROC</strong> and detecting <strong>+11 occult diabetic patients</strong> with silent cardiomegaly or vascular calcification missed by clinical paperwork alone.
+                                </li>
+                                <li>
+                                    <strong>"Jenga" Feature Ablation Study:</strong> Systematically removed individual feature tiers to uncover foundational biological anchors (Age -0.126 AUC, BMI -0.052 AUC), verified the CXR imaging score as an orthogonal booster (+4.7% recall lift), and pruned 7 collinear census sub-scores to eliminate noise and push performance past 0.90.
+                                </li>
+                                <li>
+                                    <strong>Zero Patient Leakage &amp; Statistical Rigor:</strong> Enforced patient-grouped <code>StratifiedGroupKFold</code> cross-validation (N = 758 dev cohort, 252 positive) to prevent cross-split patient scan leakage. Proved vision and tabular predictions provide orthogonal diagnostic signals via correlation analysis (<strong>r = 0.169</strong>).
                                 </li>
                             </ul>
                         </div>
@@ -1773,10 +1790,10 @@
                             </div>
                             <ul class="timeline-bullets">
                                 <li>
-                                    Head the vehicle software division; engineered telemetry pipelines monitoring real-time vehicle speed and throttle-pedal position (0–100%).
+                                    Engineered working interrupt-driven <strong>Rust</strong> firmware on STM32 microcontrollers using prioritized interrupt handlers, non-blocking state machines, timers, and DMA for sensor polling and CAN-bus telemetry.
                                 </li>
                                 <li>
-                                    Programmed motor speed and regenerative braking control loops in C++ and transitioned core safety loops to Rust.
+                                    Architected vehicle telemetry pipelines monitoring real-time velocity and throttle-pedal position (0–100%) for live race analytics.
                                 </li>
                             </ul>
                         </div>
@@ -1970,33 +1987,59 @@
   <span class="term-cyan">skills</span>     - Display tech stack and proficiencies
   <span class="term-cyan">projects</span>   - List featured hardware & software builds
   <span class="term-cyan">exp</span>        - Operational history & positions
+  <span class="term-cyan">ctc</span>        - Deep-dive into Chicago Tech Circle Multimodal ML Pipeline (0.9039 AUROC)
   <span class="term-cyan">metrics</span>    - Key performance & throughput benchmarks
   <span class="term-cyan">contact</span>    - Direct links & transmission coordinates
   <span class="term-cyan">resume</span>     - Links to SWE & CE PDF resumes
   <span class="term-cyan">clear</span>      - Clear terminal screen`,
             
-            'skills': `<span class="term-amber">[CORE LANGUAGES]</span> Rust, Go, Python, TypeScript, JavaScript, C++, C, SQL, Java
+            'skills': `<span class="term-amber">[CORE LANGUAGES]</span> Python, Go, Rust, C++, TypeScript, JavaScript, SQL, Java, C, Bash
 <span class="term-amber">[BACKEND & CLOUD]</span> Node.js, Express, FastAPI, GraphQL, PostgreSQL, Supabase, AWS, Azure, Docker
-<span class="term-amber">[HARDWARE & BUS]</span> NVIDIA Jetson AGX Thor, CAN Bus, I2C, SPI, STM32, ESP32, ARM64, RTOS
-<span class="term-amber">[ML & VISION]</span> LightGBM (632x speedup), PyTorch, TensorFlow, MediaPipe, OpenCV`,
+<span class="term-amber">[HARDWARE & BUS]</span> STM32 (DMA/Interrupts), NVIDIA Jetson AGX Thor, CAN Bus, I2C, SPI, ESP32, ARM64, RTOS
+<span class="term-amber">[ML & VISION]</span> TorchXRayVision (DenseNet-121), PyTorch, LightGBM (632x speedup), GBDT Late Fusion, OpenCV`,
 
             'projects': `1. <span class="term-pink">EdgeGuardNano</span> (Jetson AGX Thor, Rust, LightGBM, Next.js)
-2. <span class="term-pink">SAE Formula Electric</span> (C++, Rust, CAN Bus, ECU Telemetry)
+2. <span class="term-pink">SAE Formula Electric</span> (STM32, Interrupt-driven Rust, CAN Bus, DMA Telemetry)
 3. <span class="term-pink">P2P Crypto Wallet</span> (Go, PostgreSQL ACID, BIP39, TOTP)
 4. <span class="term-pink">Real-Time Gesture AI</span> (FastAPI, MediaPipe, scikit-learn, OpenCV)
 5. <span class="term-pink">Reaction-Time Arena</span> (3x MCU I2C Master-Slave)
 6. <span class="term-pink">VulnWire</span> (Automated Threat Intel Dashboard)`,
 
             'exp': `1. <span class="term-cyan">MatchNice</span> (June 2026 - Present): Software Engineer
-   - Scalable donation platform, Supabase PostgreSQL, 100% webhook sync
+   - Scalable donation platform, Next.js/Supabase, zero duplicate webhook retries
 2. <span class="term-cyan">CAS Enterprise Inc.</span> (Aug 2023 - June 2026): DevOps & Full Stack
-   - AWS to Azure migration, 99/100 Lighthouse score, 91% CI/CD speedup
+   - AWS to Azure migration, 99/100 Lighthouse score, 91% CI/CD speedup, SQL OOM fix
 3. <span class="term-cyan">Chicago Tech Circle</span> (Sept 2026 - Present): ML Researcher
-   - Chest X-ray & visceral fat PyTorch modeling for type-2 diabetes risk
+   - 0.9039 AUROC Multimodal Late Fusion (DenseNet-121 + GBDT), +11 occult cases detected
+   - Type <span class="term-pink">'ctc'</span> for the full 4-stage engineering breakdown!
 4. <span class="term-cyan">UIC Software Research</span> (Jun 2024 - Jul 2024): Security Intern
    - Evaluated LLM prompt injection risks & consumer data security`,
 
-            'metrics': `• <span class="term-cyan">632x</span> Throughput advantage on Jetson Thor ARM64 LightGBM
+            'ctc': `<span class="term-amber">═══ CHICAGO TECH CIRCLE // MULTIMODAL CXR ML PIPELINE (0.9039 AUROC) ═══</span>
+<span class="term-cyan">[STAGE A: COMPUTER VISION BACKBONE]</span>
+• TorchXRayVision DenseNet-121 (densenet121-res224-all) for cardiothoracic feature extraction.
+• Aspect-preserving letterboxing (224x224 with padding) guarding true thoracic anatomy.
+• Defeated scanner artifact overfitting (loss gap: 0.50 -> 0.04) with clinical augmentations
+  (strictly banning horizontal flips to maintain anatomical heart orientation).
+
+<span class="term-cyan">[STAGE B: MULTIMODAL LATE FUSION]</span>
+• Clinical baseline: GBDT on Age, BMI, Sex, Married, SDI (0.8929 AUROC).
+• Fused continuous CXR risk scores with tabular embeddings, elevating AUC to <span class="term-pink">0.9039 AUROC</span>.
+• Clinical impact: Caught <span class="term-pink">+11 occult diabetic patients</span> whose paperwork appeared normal,
+  revealing silent cardiomegaly or vascular calcification.
+
+<span class="term-cyan">[STAGE C: "JENGA" FEATURE ABLATION]</span>
+• Age (-0.126 AUC drop) & BMI (-0.052 AUC drop) established as core biological anchors.
+• X-ray imaging score verified as orthogonal booster (-0.010 AUC drop; +4.7% recall lift).
+• Pruned 7 collinear census sub-scores, eliminating noise and raising AUC past 0.90.
+
+<span class="term-cyan">[STAGE D: ZERO-LEAKAGE & STATISTICAL RIGOR]</span>
+• StratifiedGroupKFold cross-validation strictly grouped by patient_id (N=758 dev cohort, 252 pos).
+• Correlation analysis proved low correlation between vision and clinical scores (r = 0.169),
+  confirming orthogonal, non-redundant diagnostic signal.`,
+
+            'metrics': `• <span class="term-cyan">0.9039 AUROC</span> Multimodal CXR Late Fusion (+11 occult cases caught)
+• <span class="term-cyan">632x</span> Throughput advantage on Jetson Thor ARM64 LightGBM
 • <span class="term-cyan">98.6%</span> Latency cut for sales playbook automation (18h -> 15m)
 • <span class="term-cyan">99/100</span> Lighthouse performance score (Next.js SSR & 1.2s LCP)
 • <span class="term-cyan">91%</span> Deployment latency cut via Python CI/CD
